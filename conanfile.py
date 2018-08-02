@@ -5,7 +5,7 @@ from conans import ConanFile, tools
 from distutils.spawn import find_executable
 
 from conans import ConanFile, CMake
-from conans.tools import ftp_download, unzip, os_info, SystemPackageTool
+from conans.tools import download, unzip, os_info, SystemPackageTool
 
 import os
 import shutil
@@ -43,11 +43,12 @@ class DCMTKConan(ConanFile):
 
     def source(self):
         folder_name = "dcmtk%s" % self.version.replace(".", "")
-        archive_name =  "dcmtk-%s.tar.gz" % self.version
-        server_name = "dicom.offis.de"
-        file_name = "pub/dicom/offis/software/dcmtk/%s/%s" % (folder_name, archive_name)
-        ftp_download(server_name, file_name)
+        archive_name =  "DCMTK-%s.tar.gz" % self.version
+        download("https://github.com/DCMTK/dcmtk/archive/%s" % archive_name, archive_name)
         unzip(archive_name)
+        extraced_folder = "dcmtk-DCMTK-%s" % self.version
+        shutil.move(extraced_folder, "src")
+
 
     def build(self):
         cmake = CMake(self)
@@ -63,7 +64,7 @@ class DCMTKConan(ConanFile):
             if self.options.fPIC:
                 cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = "ON"
 
-        cmake.configure()
+        cmake.configure(build_dir=self.build_folder)
         cmake.build(target="install")
 
     def package(self):

@@ -9,4 +9,4 @@ if(MSVC)
 endif()
 
 
-add_subdirectory(dcmtk-3.6.3)
+add_subdirectory(src)

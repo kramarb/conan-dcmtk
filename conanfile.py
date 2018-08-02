@@ -20,7 +20,6 @@ class DCMTKConan(ConanFile):
     homepage = "https://dicom.offis.de/dcmtk.php.en"
     license = "https://support.dcmtk.org/docs/file_copyright.html"
     author = "Miha Orazem miha.orazem@gmail.com"
-    exports_sources = ["CMakeLists.txt", "ucm.cmake"]
     settings = "os", "arch", "compiler", "build_type"
 
     options = dict({
@@ -64,7 +63,7 @@ class DCMTKConan(ConanFile):
             if self.options.fPIC:
                 cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = "ON"
 
-        cmake.configure(build_dir=self.build_folder)
+        cmake.configure(build_dir="build")
         cmake.build(target="install")
 
     def package(self):

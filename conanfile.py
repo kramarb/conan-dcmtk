@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from conans import ConanFile, tools
-from distutils.spawn import find_executable
-
 from conans import ConanFile, CMake
-from conans.tools import download, unzip, os_info, SystemPackageTool
-
+from conans.tools import download, unzip
 import os
 import shutil
 import configparser
@@ -39,11 +35,6 @@ class DCMTKConan(ConanFile):
     def configure(self):
         if os == "Windows":
             del self.options.fPIC
-        pass
-
-
-    def requirements(self):
-        pass
 
     def source(self):
         folder_name = "dcmtk%s" % self.version.replace(".", "")
